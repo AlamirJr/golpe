@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Download Protegido</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: linear-gradient(135deg, #1e293b, #334155);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  .card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 40px 32px;
+    max-width: 380px;
+    width: 100%;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+    text-align: center;
+  }
+  .icon {
+    font-size: 42px;
+    margin-bottom: 12px;
+  }
+  h1 {
+    font-size: 20px;
+    color: #1e293b;
+    margin-bottom: 8px;
+  }
+  p.desc {
+    color: #64748b;
+    font-size: 14px;
+    margin-bottom: 24px;
+  }
+  input[type="password"] {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    font-size: 15px;
+    margin-bottom: 12px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  input[type="password"]:focus {
+    border-color: #3b82f6;
+  }
+  button {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    background: #3b82f6;
+    color: #fff;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  button:hover {
+    background: #2563eb;
+  }
+  #error {
+    color: #dc2626;
+    font-size: 13px;
+    margin-top: 10px;
+    min-height: 18px;
+  }
+  #downloadArea {
+    display: none;
+    margin-top: 16px;
+  }
+  #downloadArea a {
+    display: inline-block;
+    padding: 12px 20px;
+    background: #16a34a;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 15px;
+  }
+  #downloadArea a:hover {
+    background: #15803d;
+  }
+</style>
+</head>
+<body>
+
+<div class="card">
+  <div class="icon">🔒</div>
+  <h1>Área de Download Protegida</h1>
+  <p class="desc">Digite a senha de acesso para liberar o download do arquivo.</p>
+
+  <div id="loginArea">
+    <input type="password" id="pwd" placeholder="Senha de acesso" onkeydown="if(event.key==='Enter') checarSenha()">
+    <button onclick="checarSenha()">Acessar</button>
+    <div id="error"></div>
+  </div>
+
+  <div id="downloadArea">
+    <a id="downloadLink" href="#" download>⬇️ Baixar arquivo</a>
+  </div>
+</div>
+
+<script>
+  // --- CONFIGURAÇÃO ---
+  // Nome do arquivo .zip (deve estar na MESMA pasta deste HTML no GitHub Pages)
+  const NOME_ARQUIVO = "Conversa do WhatsApp com Golpe.zip";
+
+  // Senha de acesso (troque pelo valor desejado)
+  const SENHA = "golpe123";
+  // ---------------------
+
+  function checarSenha() {
+    const input = document.getElementById("pwd").value;
+    const erro = document.getElementById("error");
+
+    if (input === SENHA) {
+      document.getElementById("loginArea").style.display = "none";
+      const area = document.getElementById("downloadArea");
+      const link = document.getElementById("downloadLink");
+      link.href = NOME_ARQUIVO;
+      area.style.display = "block";
+      erro.textContent = "";
+    } else {
+      erro.textContent = "Senha incorreta. Tente novamente.";
+      document.getElementById("pwd").value = "";
+    }
+  }
+</script>
+
+</body>
+</html>
