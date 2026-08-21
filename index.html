@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Área Restrita</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      font-family: Arial, Helvetica, sans-serif;
+      background:
+        radial-gradient(circle at top left, #284f8f 0, transparent 35%),
+        linear-gradient(135deg, #081326, #10264a);
+      color: #ffffff;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 430px;
+      padding: 38px 32px;
+      border-radius: 22px;
+      background: rgba(255, 255, 255, 0.10);
+      border: 1px solid rgba(255,255,255,0.15);
+      box-shadow: 0 20px 55px rgba(0,0,0,0.35);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      text-align: center;
+    }
+
+    .lock {
+      width: 72px;
+      height: 72px;
+      margin: 0 auto 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.12);
+      font-size: 34px;
+    }
+
+    h1 {
+      font-size: 26px;
+      margin-bottom: 10px;
+    }
+
+    .subtitle {
+      color: #cbd6e8;
+      font-size: 15px;
+      line-height: 1.5;
+      margin-bottom: 26px;
+    }
+
+    .input-wrap {
+      position: relative;
+      margin-bottom: 14px;
+    }
+
+    input {
+      width: 100%;
+      height: 52px;
+      padding: 0 50px 0 16px;
+      border: 1px solid rgba(255,255,255,0.18);
+      border-radius: 12px;
+      outline: none;
+      background: rgba(255,255,255,0.10);
+      color: #fff;
+      font-size: 16px;
+    }
+
+    input::placeholder {
+      color: #aebbd0;
+    }
+
+    input:focus {
+      border-color: #72a7ff;
+      box-shadow: 0 0 0 3px rgba(85,145,255,0.16);
+    }
+
+    .toggle {
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      border: none;
+      background: transparent;
+      color: #cbd6e8;
+      cursor: pointer;
+      font-size: 18px;
+    }
+
+    .enter {
+      width: 100%;
+      height: 52px;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      color: white;
+      font-size: 16px;
+      font-weight: 700;
+      background: linear-gradient(135deg, #2d72d9, #4d8df1);
+      transition: transform .15s ease, filter .15s ease;
+    }
+
+    .enter:hover {
+      filter: brightness(1.08);
+    }
+
+    .enter:active {
+      transform: scale(.985);
+    }
+
+    #message {
+      min-height: 24px;
+      margin-top: 15px;
+      font-size: 14px;
+      color: #ffb4b4;
+    }
+
+    .foot {
+      margin-top: 20px;
+      color: #95a6c0;
+      font-size: 12px;
+      line-height: 1.4;
+    }
+  </style>
+</head>
+
+<body>
+  <main class="card">
+    <div class="lock">🔒</div>
+
+    <h1>Área Restrita</h1>
+
+    <p class="subtitle">
+      Digite a senha para acessar os arquivos disponíveis nesta área.
+    </p>
+
+    <form id="loginForm">
+      <div class="input-wrap">
+        <input
+          id="password"
+          type="password"
+          placeholder="Digite a senha"
+          autocomplete="current-password"
+          autofocus
+          required
+        />
+        <button class="toggle" type="button" id="togglePassword"
+                aria-label="Mostrar ou ocultar senha">👁</button>
+      </div>
+
+      <button class="enter" type="submit">Entrar</button>
+      <div id="message" aria-live="polite"></div>
+    </form>
+
+    <div class="foot">
+      Acesso reservado aos usuários autorizados.
+    </div>
+  </main>
+
+<script>
+  /*
+    IMPORTANTE:
+    Esta é uma proteção feita apenas no navegador.
+    Para segurança real, controle também o compartilhamento
+    da pasta diretamente pelo Google Drive.
+  */
+
+  const DRIVE_URL =
+    "https://drive.google.com/drive/folders/1XTX6AjKUc64C6SIOP4da1yVuUWB3GpHR";
+
+  // Senha padrão desta página:
+  const ACCESS_PASSWORD = "Acesso2026";
+
+  const form = document.getElementById("loginForm");
+  const passwordInput = document.getElementById("password");
+  const message = document.getElementById("message");
+  const togglePassword = document.getElementById("togglePassword");
+
+  togglePassword.addEventListener("click", () => {
+    const hidden = passwordInput.type === "password";
+    passwordInput.type = hidden ? "text" : "password";
+    togglePassword.textContent = hidden ? "🙈" : "👁";
+  });
+
+  form.addEventListener("submit", (event) => {
+    event.preventDefault();
+
+    if (passwordInput.value === ACCESS_PASSWORD) {
+      message.style.color = "#9ff0b5";
+      message.textContent = "Senha correta. Abrindo arquivos...";
+
+      setTimeout(() => {
+        window.location.href = DRIVE_URL;
+      }, 500);
+    } else {
+      message.style.color = "#ffb4b4";
+      message.textContent = "Senha incorreta. Tente novamente.";
+      passwordInput.value = "";
+      passwordInput.focus();
+    }
+  });
+</script>
+</body>
+</html>
